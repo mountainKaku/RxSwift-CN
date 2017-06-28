@@ -23,17 +23,17 @@
 sequence1
   .observeOn(backgroundScheduler)
   .map { n in
-      print("This is performed on background scheduler")
+      print("This is performed on the background scheduler")
   }
   .observeOn(MainScheduler.instance)
   .map { n in
-      print("This is performed on main scheduler")
+      print("This is performed on the main scheduler")
   }
 ```
 
 如果你需要开始序列生成（ `subscribe` 方法）并且调用处置方法在特定的调度器上，使用 `subscribeOn(scheduler)`。
 
-如果 `subscribeOn` 没有显示指定，`subscribe` 方法会被调用在执行 `subscribeNext` or `subscribe` 的同一个线程或者调度器上。
+如果 `subscribeOn` 没有显示指定，`subscribe` 闭包(通过`Observable.create`)会被调用在执行 `subscribe(onNext:)` or `subscribe` 的同一个线程或者调度器上。
 
 如果 `subscribeOn` 没有显示指定，`dispose ` 方法会被调用在执行初始化处置（disposing）的线程和调度器上。
 
@@ -63,7 +63,7 @@ public protocol ImmediateScheduler {
 }
 ```
 
-如果你想创建新的支持基于时间操作的调度器，然后你需要实现。
+如果你想创建新的支持基于时间操作的调度器，然后你需要实现`Scheduler` 协议。
 
 ```swift
 public protocol Scheduler: ImmediateScheduler {
@@ -99,7 +99,7 @@ Rx 可以使用所有类型的调度器，但是它还能执行一些额外的�
 工作的调度器单位在当前线程上。
 这是生成元素操作的默认调度器。
 
-这个调度器有时候也被称为 `蹦床调度器`。
+这个调度器有时候也被称为 "蹦床调度器"。
 
 如果 `CurrentThreadScheduler.instance.schedule(state) { }` 首次被调用在同一个线程上，调度的行为会被立刻执行，并且隐藏的队列会被创建，所有递归调度操作将暂时入队。
 

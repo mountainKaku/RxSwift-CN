@@ -27,19 +27,19 @@ extension ObservableType where E: MaybeCool {
   **避免嵌套定订阅调用。例如：**
 
   ```swift
-  textField.rx_text.subscribeNext { text in
-      performURLRequest(text).subscribeNext { result in
+  textField.rx.text.subscribe(onNext: { text in
+      performURLRequest(text).subscribe(onNext: { result in
           ...
-      }
+      })
       .addDisposableTo(disposeBag)
-  }
+  })
   .addDisposableTo(disposeBag)
   ```
 
   **更好的方式是使用操作符链式调用**
 
   ```swift
-  textField.rx_text
+  textField.rx.text
       .flatMapLatest { text in
           // Assuming this doesn't fail and returns result on main scheduler,
           // otherwise `catchError` and `observeOn(MainScheduler.instance)` can be used to

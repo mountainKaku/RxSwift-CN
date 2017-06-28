@@ -23,7 +23,7 @@ xs
 
 返回一个订阅 `Disposable` 的 `subscribe` 的函数能被用来取消计算和释放资源。然而，不使用它（并且不 dispose 它）将引起一个错误
 
-终止这些流利调用的更好方法是通过使用 `DisposeBag`，或通过链式调用 `.addDisposableTo(disposeBag)` 或通过直接给包增加 disposable。
+终止这些流利调用的更好方法是通过使用 `DisposeBag`，或通过链式调用 `.disposed(by: disposeBag)` 或通过直接给包增加 disposable。
 
 ```Swift
 let xs: Observable<E> ....
@@ -38,7 +38,7 @@ xs
   }, onError: {
     ...
   })
-  .addDisposableTo(disposeBag) // <--- note `addDisposableTo`
+  .disposed(by: disposeBag) // <--- note `.disposed(by:)`
 ```
 
 当 `disposeBag` 被释放时，在 disposables 中的会被自动释放。
@@ -55,7 +55,7 @@ _ = xs
   .filter { ... }
   .map { ... }
   .switchLatest()
-  .takeUntil(someObject.rx_deallocated) // <-- note the `takeUntil` operator
+  .takeUntil(someObject.deallocated) // <-- note the `takeUntil` operator
   .subscribe(onNext: {
     ...
   }, onError: {
@@ -114,9 +114,9 @@ let disposeBag = DisposeBag()
 xs
   .filter { ... }
   .map { ... }
-  .subscribeNext { nextElement in  // <-- note the `subscribe*` method
+  .subscribe(onNext: { nextElement in  // <-- note the `subscribe*` method
     // use the element
     print(nextElement)
-  }
-  .addDisposableTo(disposeBag)
+  })
+  .disposed(by: disposeBag)
 ```

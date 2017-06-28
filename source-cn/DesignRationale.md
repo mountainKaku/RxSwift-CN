@@ -6,12 +6,12 @@
 ```Swift
 enum Event<Element>  {
     case Next(Element)      // next element of a sequence
-    case Error(ErrorType)   // sequence failed with error
+    case Error(Error)       // sequence failed with error
     case Completed          // sequence terminated successfully
 }
 ```
 
-让我们来讨论一下，如果 `ErrorType` 是泛型的优劣点。
+让我们来讨论一下，如果 `Error` 是泛型的优劣点。
 
 如果你有一个错误类型的泛型，你创建两个 observable 之间的额外阻抗失配。
 
@@ -57,4 +57,4 @@ enum Event<Element>  {
 
 因为 RxSwift 的单序列操作符已经没有锁，所有的锁存在于稳定的组件中（例如，UI），实际上 RxSwift 的代码中不含有锁，因此允许强制编译。
 
-当保留 Rx 组件的语义时使用 Error 泛型是真的没有好处并不能达到一个清晰的方式。
+当保留 Rx 组件的语义时使用 `Error`s 泛型是真的没有好处并不能达到一个清晰的方式。
