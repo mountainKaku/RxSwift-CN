@@ -68,7 +68,7 @@
 
 当我们需要指出序列语法作为一个常规表达式，他将会是这样：
 
-**next* (next | completed)?**
+**next* (error | completed)?**
 
 描述如下：
 
@@ -848,12 +848,12 @@ extension ObservableType {
  }
 ```
 
-### Enabling Debug Mode
-In order to [Debug memory leaks using `RxSwift.Resources`](#debugging-memory-leaks) or [Log all HTTP requests automatically](#logging-http-traffic), you have to enable Debug Mode.
+### 启用 debug 模式
+为了 [使用 `RxSwift.Resources` 来调试内存泄露](#debugging-memory-leaks) 或者 [自动记录所有HTTP请求](#logging-http-traffic), 你需要启用 debug 模式.
 
-In order to enable debug mode, a `TRACE_RESOURCES` flag must be added to the RxSwift target build settings, under _Other Swift Flags_. 
+为了启用调试模式，需要在 RxSwift target的 build settings -> _Other Swift Flags_ 里面追加一个`TRACE_RESOURCES` flag. 
 
-For further discussion and instructions on how to set the `TRACE_RESOURCES` flag for Cocoapods & Carthage, see [#378](https://github.com/ReactiveX/RxSwift/issues/378)
+有关如何为Cocoapods和Carthage设置“TRACE_RESOURCES”标志的进一步讨论和说明，请参阅 [#378](https://github.com/ReactiveX/RxSwift/issues/378)
 
 
 ## 调试内存泄露
